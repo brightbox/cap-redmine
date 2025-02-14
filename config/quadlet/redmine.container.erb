@@ -1,0 +1,22 @@
+[Container]
+Image=<%= fetch(:redmine_image) %>
+ContainerName=<%= fetch(:application) %>
+Volume=<%= fetch(:redmine_volume) %>:/usr/src/redmine/files
+Environment=REDMINE_DB_MYSQL=<%= fetch(:mysql_host) %>
+Environment=REDMINE_DB_PORT=<%= fetch(:mysql_port) %>
+Environment=REDMINE_DB_DATABASE=<%= fetch(:mysql_database) %>
+Environment=REDMINE_DB_USERNAME=<%= fetch(:mysql_username) %>
+Environment=REDMINE_DB_PASSWORD=<%= fetch(:mysql_password) %>
+Environment=SECRET_KEY_BASE=<%= fetch(:secret_key_base) %>
+Network=host
+Label=io.containers.autoupdate=registry
+StopTimeout=90
+
+[Service]
+# Restart service when sleep finishes
+Restart=always
+# Extend Timeout to allow time to pull the image
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target
